@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="km" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ផែនការជីវិត & រំលឹកកិច្ចការវៃឆ្លាត - PlanMaster Pro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        khmer: ['"Kantumruy Pro"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        amberGold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Kantumruy Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.04);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.35);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.6);
+        }
+        /* Luxury Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        /* Alert Ping Animation */
+        @keyframes urgentPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+        .urgent-pulse {
+            animation: urgentPulse 1.8s infinite;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+
+    <!-- ==================== TOP NAVIGATION HEADER ==================== -->
+    <header class="sticky top-0 z-40 border-b border-slate-200/80 dark:border-slate-800/80 glass-panel no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 shrink-0">
+                    <i class="fa-solid fa-bell-check text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base leading-tight tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>PlanMaster Pro</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-medium">
+                            <i class="fa-solid fa-radar text-[9px] mr-1 animate-pulse"></i>Live Alerts
+                        </span>
+                    </h1>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">គ្រោងផែនការ និងប្រព័ន្ធរំលឹកកិច្ចការវៃឆ្លាត</p>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <!-- Add Task Button -->
+                <button onclick="openTaskModal()" class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl shadow-md shadow-indigo-600/20 transition active:scale-95">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span class="hidden sm:inline">គ្រោងកិច្ចការថ្មី</span>
+                    <span class="sm:hidden">គ្រោងទុក</span>
+                </button>
+
+                <!-- Pomodoro Timer Trigger -->
+                <button onclick="openPomodoroModal()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="នាឡិកាផ្ដោតអារម្មណ៍ (Pomodoro Focus Timer)">
+                    <i class="fa-solid fa-stopwatch text-sm text-purple-500"></i>
+                </button>
+
+                <!-- Sound Test / Toggle -->
+                <button onclick="testNotificationChime()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-amber-500 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="សាកល្បងសម្លេងរំលឹក (Test Audio Alert)">
+                    <i class="fa-solid fa-volume-high text-sm text-amber-500"></i>
+                </button>
+
+                <!-- Backup & Print Dropdown -->
+                <div class="relative inline-block text-left">
+                    <button onclick="toggleUtilityMenu()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="បន្ថែម">
+                        <i class="fa-solid fa-ellipsis-vertical text-sm"></i>
+                    </button>
+                    <div id="utilityMenu" class="hidden absolute right-0 mt-2 w-52 rounded-2xl glass-panel shadow-2xl border border-slate-200 dark:border-slate-700 py-2 z-50">
+                        <button onclick="exportDataJSON()" class="w-full text-left px-4 py-2.5 text-xs flex items-center gap-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">
+                            <i class="fa-solid fa-file-arrow-down text-emerald-500"></i> ទាញយក Backup (JSON)
+                        </button>
+                        <label class="w-full text-left px-4 py-2.5 text-xs flex items-center gap-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 cursor-pointer">
+                            <i class="fa-solid fa-file-arrow-up text-indigo-500"></i> ស្តារទិន្នន័យ (Import)
+                            <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importDataJSON(event)">
+                        </label>
+                        <button onclick="requestNotificationPermission()" class="w-full text-left px-4 py-2.5 text-xs flex items-center gap-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">
+                            <i class="fa-solid fa-bell text-amber-500"></i> សុំសិទ្ធិ Browser Alert
+                        </button>
+                        <button onclick="window.print()" class="w-full text-left px-4 py-2.5 text-xs flex items-center gap-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">
+                            <i class="fa-solid fa-print text-blue-500"></i> បោះពុម្ព / PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="Dark / Light Mode">
+                    <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6 flex-grow">
+
+        <!-- DASHBOARD ANALYTICS & OVERVIEW -->
+        <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 no-print">
+            <!-- Total Planned -->
+            <div class="glass-panel rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800/80 shadow-sm flex items-center space-x-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 block">ផែនការសរុប</span>
+                    <span id="statTotal" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</span>
+                </div>
+            </div>
+
+            <!-- Scheduled Today -->
+            <div class="glass-panel rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800/80 shadow-sm flex items-center space-x-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 dark:text-amber-400 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 block">កិច្ចការថ្ងៃនេះ</span>
+                    <span id="statToday" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</span>
+                </div>
+            </div>
+
+            <!-- Overdue Tasks -->
+            <div class="glass-panel rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800/80 shadow-sm flex items-center space-x-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 text-rose-500 dark:text-rose-400 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 block">ហួសកំណត់</span>
+                    <span id="statOverdue" class="text-2xl font-bold text-rose-600 dark:text-rose-400">0</span>
+                </div>
+            </div>
+
+            <!-- Completed & Progress -->
+            <div class="glass-panel rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800/80 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-500 dark:text-slate-400">អត្រាជោគជ័យ</span>
+                    <span id="statProgressPct" class="text-xs font-bold text-emerald-600 dark:text-emerald-400">0%</span>
+                </div>
+                <div class="flex items-baseline justify-between mt-1 mb-1.5">
+                    <div class="text-lg font-bold text-slate-800 dark:text-slate-100">
+                        <span id="statDone">0</span> <span class="text-xs font-normal text-slate-400">បានបញ្ចប់</span>
+                    </div>
+                </div>
+                <!-- Progress bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                    <div id="statProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILTERS, VIEW TABS & SEARCH -->
+        <section class="glass-panel rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-4 no-print">
+            <!-- View Mode Switcher (Today, Upcoming, Overdue, Completed, All) -->
+            <div class="flex items-center overflow-x-auto pb-1 gap-1.5 border-b border-slate-200/60 dark:border-slate-800/80 text-xs font-medium">
+                <button onclick="setViewFilter('all')" id="tab-all" class="px-3.5 py-2 rounded-xl transition whitespace-nowrap bg-indigo-600 text-white shadow-sm">
+                    <i class="fa-solid fa-layer-group mr-1.5"></i>ទាំងអស់
+                </button>
+                <button onclick="setViewFilter('today')" id="tab-today" class="px-3.5 py-2 rounded-xl transition whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-sun mr-1.5 text-amber-500"></i>ថ្ងៃនេះ
+                </button>
+                <button onclick="setViewFilter('upcoming')" id="tab-upcoming" class="px-3.5 py-2 rounded-xl transition whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-calendar-week mr-1.5 text-indigo-500"></i>ខាងមុខនេះ
+                </button>
+                <button onclick="setViewFilter('overdue')" id="tab-overdue" class="px-3.5 py-2 rounded-xl transition whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-triangle-exclamation mr-1.5 text-rose-500"></i>ហួសកំណត់
+                </button>
+                <button onclick="setViewFilter('completed')" id="tab-completed" class="px-3.5 py-2 rounded-xl transition whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-circle-check mr-1.5 text-emerald-500"></i>បានបញ្ចប់
+                </button>
+            </div>
+
+            <!-- Search and Dropdown Filters -->
+            <div class="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchInput" oninput="renderTasks()" placeholder="ស្វែងរកតាមចំណងជើង ខ្លឹមសារ ឬប្រភេទកិច្ចការ..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Category Filter -->
+                    <select id="filterCategory" onchange="renderTasks()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option value="all">📂 គ្រប់ប្រភេទ</option>
+                        <option value="ការងារបង្រៀន/សាលារៀន">🏫 ការងារបង្រៀន/សាលារៀន</option>
+                        <option value="ការស្រាវជ្រាវ">🔬 ការស្រាវជ្រាវ/គម្រោង</option>
+                        <option value="ផ្ទាល់ខ្លួន">🌿 ផ្ទាល់ខ្លួន/គ្រួសារ</option>
+                        <option value="កិច្ចប្រជុំ/ណាត់ជួប">🤝 កិច្ចប្រជុំ/ណាត់ជួប</option>
+                        <option value="សុខភាព/កីឡា">🧘 សុខភាព/ហាត់ប្រាណ</option>
+                        <option value="ហិរញ្ញវត្ថុ/ទូទាត់">💳 ហិរញ្ញវត្ថុ/ទូទាត់ប្រាក់</option>
+                    </select>
+
+                    <!-- Priority Filter -->
+                    <select id="filterPriority" onchange="renderTasks()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option value="all">⚡ គ្រប់អាទិភាព</option>
+                        <option value="p1">🚨 បន្ទាន់ & សំខាន់ (P1)</option>
+                        <option value="p2">🔥 សំខាន់ (P2)</option>
+                        <option value="p3">⚡ មធ្យម (P3)</option>
+                        <option value="p4">🌱 ទូទៅ (P4)</option>
+                    </select>
+
+                    <!-- Reset Filter -->
+                    <button onclick="resetFilters()" class="p-2.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="កំណត់ឡើងវិញ">
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHEDULED ACTIVITIES LIST -->
+        <section>
+            <div class="flex items-center justify-between mb-4 px-1">
+                <h2 class="text-sm sm:text-base font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-indigo-500"></i>
+                    <span id="listTitleLabel">បញ្ជីកិច្ចការគ្រោងទុក</span>
+                    <span id="taskCountBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
+                </h2>
+                <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>ប្រព័ន្ធផ្ទៀងផ្ទាត់ស្វ័យប្រវត្តិកំពុងដំណើរការ</span>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden glass-panel rounded-3xl p-12 text-center border border-dashed border-slate-300 dark:border-slate-700 my-6">
+                <div class="w-16 h-16 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-500 mx-auto flex items-center justify-center text-2xl mb-4">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 dark:text-slate-200 text-base mb-1">មិនទាន់មានកិច្ចការនៅក្នុងបញ្ជីនេះទេ</h3>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-5">
+                    ចាប់ផ្តើមគ្រោងទុកសកម្មភាព និងកំណត់ម៉ោងរំលឹក ដើម្បីកុំឱ្យភ្លេចភារកិច្ចសំខាន់ៗរបស់អ្នក។
+                </p>
+                <button onclick="openTaskModal()" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl shadow transition">
+                    <i class="fa-solid fa-plus"></i> គ្រោងកិច្ចការដំបូង
+                </button>
+            </div>
+
+            <!-- Task Grid Cards Container -->
+            <div id="tasksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Dynamically Rendered Via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-200 dark:border-slate-800/80 py-4 text-center text-xs text-slate-400 no-print">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 PlanMaster Pro - រចនាឡើងដើម្បីជួយលោកគ្រូគ្រប់គ្រងពេលវេលាប្រកបដោយប្រសិទ្ធភាពខ្ពស់</p>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL: ADD / EDIT TASK ==================== -->
+    <div id="taskModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-4 overflow-y-auto">
+        <div class="glass-panel border border-slate-200 dark:border-slate-700 w-full max-w-xl rounded-3xl shadow-2xl p-6 relative my-8 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-base">
+                        <i class="fa-solid fa-clock" id="taskModalIcon"></i>
+                    </div>
+                    <div>
+                        <h3 id="taskModalTitle" class="font-bold text-slate-900 dark:text-white text-base">គ្រោងទុកសកម្មភាពថ្មី</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">កំណត់កាលវិភាគ អាទិភាព និងម៉ោងរំលឹក Alert</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeTaskModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Form -->
+            <form id="taskForm" onsubmit="handleSaveTask(event)" class="mt-4 space-y-4 text-xs sm:text-sm">
+                <input type="hidden" id="taskId">
+
+                <!-- Title -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                        ឈ្មោះសកម្មភាព / កិច្ចការដែលត្រូវធ្វើ <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="text" id="taskTitle" required placeholder="ឧ. រៀបចំសំណួរប្រឡងគីមីវិទ្យា, ប្រជុំគណៈគ្រប់គ្រងសាលា..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <!-- Category & Priority -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                            ប្រភេទកិច្ចការ <span class="text-rose-500">*</span>
+                        </label>
+                        <select id="taskCategory" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="ការងារបង្រៀន/សាលារៀន">🏫 ការងារបង្រៀន/សាលារៀន</option>
+                            <option value="ការស្រាវជ្រាវ">🔬 ការស្រាវជ្រាវ/គម្រោង</option>
+                            <option value="ផ្ទាល់ខ្លួន">🌿 ផ្ទាល់ខ្លួន/គ្រួសារ</option>
+                            <option value="កិច្ចប្រជុំ/ណាត់ជួប">🤝 កិច្ចប្រជុំ/ណាត់ជួប</option>
+                            <option value="សុខភាព/កីឡា">🧘 សុខភាព/ហាត់ប្រាណ</option>
+                            <option value="ហិរញ្ញវត្ថុ/ទូទាត់">💳 ហិរញ្ញវត្ថុ/ទូទាត់ប្រាក់</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                            កម្រិតអាទិភាព (Priority) <span class="text-rose-500">*</span>
+                        </label>
+                        <select id="taskPriority" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="p1">🚨 បន្ទាន់ & សំខាន់បំផុត (P1)</option>
+                            <option value="p2">🔥 សំខាន់ខ្ពស់ (P2)</option>
+                            <option value="p3" selected>⚡ មធ្យម (P3)</option>
+                            <option value="p4">🌱 ទូទៅ (P4)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Due DateTime & Estimated Duration -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                            ពេលវេលាត្រូវធ្វើ (Due Date & Time) <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="datetime-local" id="taskDueDateTime" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                            រយៈពេលប៉ាន់ស្មាន
+                        </label>
+                        <select id="taskDuration" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="15 នាទី">⏱️ 15 នាទី</option>
+                            <option value="30 នាទី" selected>⏱️ 30 នាទី</option>
+                            <option value="45 នាទី">⏱️ 45 នាទី</option>
+                            <option value="1 ម៉ោង">⏱️ 1 ម៉ោង</option>
+                            <option value="2 ម៉ោង">⏱️ 2 ម៉ោង</option>
+                            <option value="ពេញមួយថ្ងៃ">⏱️ ពេញមួយថ្ងៃ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Subtasks / Checklist builder -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center justify-between">
+                        <span>📋 បញ្ជីកិច្ចការរង (Subtasks / Checklist)</span>
+                        <span class="text-[11px] text-slate-400 font-normal">ស្រេចចិត្ត</span>
+                    </label>
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" id="newSubtaskInput" placeholder="បន្ថែមចំណុចកិច្ចការរង..." class="flex-1 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs">
+                        <button type="button" onclick="addSubtaskItem()" class="px-3 py-1.5 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-xl hover:bg-slate-300 text-xs font-medium">
+                            <i class="fa-solid fa-plus mr-1"></i>បន្ថែម
+                        </button>
+                    </div>
+                    <div id="subtasksListContainer" class="space-y-1.5 max-h-32 overflow-y-auto pr-1">
+                        <!-- Subtasks item list -->
+                    </div>
+                </div>
+
+                <!-- Notes / Description -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                        កំណត់ចំណាំបន្ថែម (Notes)
+                    </label>
+                    <textarea id="taskNotes" rows="2" placeholder="ព័ត៌មានលម្អិត, តំណភ្ជាប់ ឬអ្វីដែលត្រូវត្រៀម..." class="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+
+                <!-- Alert On / Off Switch -->
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bell text-amber-500 text-base"></i>
+                        <div>
+                            <span class="font-semibold block text-slate-800 dark:text-slate-200 text-xs">បើកសម្លេងរោទ៍រំលឹក (Audio Alarm Alert)</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">ផ្ញើសម្លេងរំលឹក និងផ្ទាំង Alert ពេលដល់ម៉ោងកំណត់</span>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="taskAlertEnabled" checked class="sr-only peer">
+                        <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-indigo-600"></div>
+                    </label>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-200 dark:border-slate-800">
+                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium transition">
+                        បោះបង់
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium shadow-md shadow-indigo-600/20 transition active:scale-95">
+                        រក្សាទុកផែនការ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== URGENT DUE ALERT MODAL POPUP ==================== -->
+    <div id="alarmAlertModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div class="w-full max-w-md rounded-3xl glass-panel border-2 border-amber-500 shadow-2xl p-6 text-center relative overflow-hidden urgent-pulse">
+            <!-- Decorative Light -->
+            <div class="absolute -top-12 -left-12 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-rose-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="relative z-10 space-y-4">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 to-rose-500 text-white flex items-center justify-center mx-auto text-2xl shadow-lg shadow-amber-500/40">
+                    <i class="fa-solid fa-bell animate-bounce"></i>
+                </div>
+
+                <div>
+                    <span class="text-xs px-2.5 py-1 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 font-semibold uppercase tracking-wider">
+                        ⏰ ដល់ពេលវេលាត្រូវធ្វើហើយ!
+                    </span>
+                    <h3 id="alertTaskTitle" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mt-2 leading-snug">
+                        <!-- Alert Task Title -->
+                    </h3>
+                    <p id="alertTaskCategory" class="text-xs text-slate-500 dark:text-slate-400 mt-1"></p>
+                </div>
+
+                <div id="alertTaskNotesBox" class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-800/70 text-xs text-slate-600 dark:text-slate-300 text-left border border-slate-200 dark:border-slate-700">
+                    <strong class="text-slate-700 dark:text-slate-200 block mb-0.5">កំណត់ចំណាំ៖</strong>
+                    <span id="alertTaskNotes">គ្មានកំណត់ចំណាំ</span>
+                </div>
+
+                <!-- Action Buttons: Mark Done, Snooze, Dismiss -->
+                <div class="grid grid-cols-3 gap-2 pt-2">
+                    <button onclick="dismissCurrentAlert()" class="py-2.5 px-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-slate-300 transition">
+                        បិទសំឡេង
+                    </button>
+                    <button onclick="snoozeAlertTask(10)" class="py-2.5 px-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-xs font-semibold transition" title="ពន្យារ 10 នាទី">
+                        +10 នាទី
+                    </button>
+                    <button onclick="markAlertTaskDone()" class="py-2.5 px-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 transition">
+                        ✓ ធ្វើរួចរាល់
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== POMODORO FOCUS TIMER MODAL ==================== -->
+    <div id="pomodoroModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-4">
+        <div class="glass-panel border border-slate-200 dark:border-slate-700 w-full max-w-sm rounded-3xl shadow-2xl p-6 text-center relative">
+            <div class="flex items-center justify-between pb-2">
+                <span class="text-xs font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-brain"></i> Pomodoro Focus Timer
+                </span>
+                <button onclick="closePomodoroModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Mode Selector: Work (25m), Short Break (5m) -->
+            <div class="flex justify-center gap-2 my-4">
+                <button onclick="setPomodoroMode(25, 'work')" id="pomoBtn-work" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-purple-600 text-white">
+                    ផ្ដោតអារម្មណ៍ (25m)
+                </button>
+                <button onclick="setPomodoroMode(5, 'break')" id="pomoBtn-break" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    សម្រាកខ្លី (5m)
+                </button>
+            </div>
+
+            <!-- Giant Timer Display -->
+            <div class="py-6">
+                <div class="text-5xl font-mono font-bold text-slate-800 dark:text-white tracking-wider" id="pomoDisplay">
+                    25:00
+                </div>
+                <p id="pomoStatusText" class="text-xs text-slate-400 mt-2">ពេលវេលាដើម្បីផ្ដោតលើការងារឱ្យចប់សព្វគ្រប់</p>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="flex justify-center gap-3">
+                <button onclick="togglePomodoroTimer()" id="pomoActionBtn" class="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs shadow-md shadow-purple-600/20 transition">
+                    ចាប់ផ្តើម
+                </button>
+                <button onclick="resetPomodoroTimer()" class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-medium text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    កំណត់ឡើងវិញ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 glass-panel border border-indigo-500/30 text-slate-800 dark:text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-indigo-500 text-base" id="toastIcon"></i>
+        <span id="toastMessage" class="text-xs sm:text-sm font-medium">សារដំណឹង</span>
+    </div>
+
+    <!-- ==================== LOGIC JAVASCRIPT ==================== -->
+    <script>
+        // Storage Keys
+        const STORAGE_TASKS = 'planmaster_pro_tasks_v1';
+        const STORAGE_THEME = 'planmaster_pro_theme_v1';
+
+        // Priorities Config
+        const PRIORITY_MAP = {
+            p1: { label: 'បន្ទាន់ & សំខាន់', badge: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20', icon: 'fa-solid fa-bolt' },
+            p2: { label: 'សំខាន់ខ្ពស់', badge: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20', icon: 'fa-solid fa-fire' },
+            p3: { label: 'មធ្យម', badge: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20', icon: 'fa-solid fa-circle-dot' },
+            p4: { label: 'ទូទៅ', badge: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border border-slate-500/20', icon: 'fa-regular fa-circle' },
+        };
+
+        // State
+        let tasks = [];
+        let currentViewFilter = 'all'; // 'all', 'today', 'upcoming', 'overdue', 'completed'
+        let currentEditingSubtasks = [];
+        let activeAlertTaskId = null;
+        let alarmAudioInterval = null;
+
+        // Pomodoro State
+        let pomoMinutes = 25;
+        let pomoSeconds = 0;
+        let pomoTimerInterval = null;
+        let isPomoRunning = false;
+        let pomoType = 'work';
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            loadTasks();
+            setupFormDefaultDatetime();
+            startBackgroundTicker();
+        });
+
+        // ------------------ DATA CRUD & STORAGE ------------------
+        function loadTasks() {
+            try {
+                const stored = localStorage.getItem(STORAGE_TASKS);
+                if (stored) {
+                    tasks = JSON.parse(stored);
+                } else {
+                    // Pre-fill realistic upcoming sample tasks
+                    const now = new Date();
+                    const task1Time = new Date(now.getTime() + 45 * 60000); // 45 mins from now
+                    const task2Time = new Date(now.getTime() + 3 * 3600000); // 3 hours from now
+                    
+                    tasks = [
+                        {
+                            id: 'tsk_' + Date.now(),
+                            title: 'រៀបចំកម្រងសំណួរ និងឯកសារបង្រៀនគីមីវិទ្យា',
+                            category: 'ការងារបង្រៀន/សាលារៀន',
+                            priority: 'p1',
+                            dueDateTime: toLocalISOString(task1Time),
+                            duration: '45 នាទី',
+                            notes: 'ត្រៀមឱ្យរួចរាល់មុនម៉ោងឡើងថ្នាក់ ជំពូកទី៣។',
+                            subtasks: [
+                                { text: 'ពិនិត្យលំហាត់គំរូ', done: true },
+                                { text: 'ព្រីនក្រដាសកិច្ចការ ២៥ សន្លឹក', done: false }
+                            ],
+                            alertEnabled: true,
+                            completed: false,
+                            alertTriggered: false
+                        },
+                        {
+                            id: 'tsk_' + (Date.now() - 100),
+                            title: 'កិច្ចប្រជុំពិភាក្សាគម្រោងស្រាវជ្រាវប្រចាំខែ',
+                            category: 'កិច្ចប្រជុំ/ណាត់ជួប',
+                            priority: 'p2',
+                            dueDateTime: toLocalISOString(task2Time),
+                            duration: '1 ម៉ោង',
+                            notes: 'ចូលរួមតាមរយៈ Google Meet ឬបន្ទប់ប្រជុំទី២។',
+                            subtasks: [
+                                { text: 'រៀបចំស្លាយ Slide បង្ហាញ', done: false }
+                            ],
+                            alertEnabled: true,
+                            completed: false,
+                            alertTriggered: false
+                        }
+                    ];
+                    saveTasksToStorage();
+                }
+            } catch (e) {
+                tasks = [];
+            }
+            renderTasks();
+            updateDashboardStats();
+        }
+
+        function saveTasksToStorage() {
+            localStorage.setItem(STORAGE_TASKS, JSON.stringify(tasks));
+            updateDashboardStats();
+        }
+
+        function toLocalISOString(date) {
+            const tzOffset = date.getTimezoneOffset() * 60000;
+            return (new Date(date.getTime() - tzOffset)).toISOString().slice(0, 16);
+        }
+
+        function setupFormDefaultDatetime() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 30); // Default to 30 mins ahead
+            document.getElementById('taskDueDateTime').value = toLocalISOString(now);
+        }
+
+        // ------------------ SUBTASKS BUILDER ------------------
+        function addSubtaskItem() {
+            const input = document.getElementById('newSubtaskInput');
+            const text = input.value.trim();
+            if (!text) return;
+            currentEditingSubtasks.push({ text: text, done: false });
+            input.value = '';
+            renderSubtaskInputList();
+        }
+
+        function removeSubtaskItem(index) {
+            currentEditingSubtasks.splice(index, 1);
+            renderSubtaskInputList();
+        }
+
+        function renderSubtaskInputList() {
+            const container = document.getElementById('subtasksListContainer');
+            if (currentEditingSubtasks.length === 0) {
+                container.innerHTML = `<span class="text-[11px] text-slate-400 italic">មិនទាន់មានកិច្ចការរង</span>`;
+                return;
+            }
+            container.innerHTML = currentEditingSubtasks.map((st, i) => `
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 text-xs">
+                    <span class="truncate text-slate-700 dark:text-slate-300">• ${escapeHtml(st.text)}</span>
+                    <button type="button" onclick="removeSubtaskItem(${i})" class="text-rose-500 hover:text-rose-700 px-1">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ------------------ TASK MODAL MANAGEMENT ------------------
+        function openTaskModal(editId = null) {
+            const form = document.getElementById('taskForm');
+            form.reset();
+            currentEditingSubtasks = [];
+
+            if (editId) {
+                const item = tasks.find(t => t.id === editId);
+                if (!item) return;
+                document.getElementById('taskId').value = item.id;
+                document.getElementById('taskTitle').value = item.title;
+                document.getElementById('taskCategory').value = item.category;
+                document.getElementById('taskPriority').value = item.priority;
+                document.getElementById('taskDueDateTime').value = item.dueDateTime;
+                document.getElementById('taskDuration').value = item.duration || '30 នាទី';
+                document.getElementById('taskNotes').value = item.notes || '';
+                document.getElementById('taskAlertEnabled').checked = !!item.alertEnabled;
+                currentEditingSubtasks = Array.isArray(item.subtasks) ? JSON.parse(JSON.stringify(item.subtasks)) : [];
+
+                document.getElementById('taskModalTitle').textContent = 'កែសម្រួលផែនការកិច្ចការ';
+            } else {
+                document.getElementById('taskId').value = '';
+                setupFormDefaultDatetime();
+                document.getElementById('taskAlertEnabled').checked = true;
+                document.getElementById('taskModalTitle').textContent = 'គ្រោងទុកសកម្មភាពថ្មី';
+            }
+
+            renderSubtaskInputList();
+            document.getElementById('taskModal').classList.remove('hidden');
+        }
+
+        function closeTaskModal() {
+            document.getElementById('taskModal').classList.add('hidden');
+        }
+
+        function handleSaveTask(e) {
+            e.preventDefault();
+            const id = document.getElementById('taskId').value;
+            const title = document.getElementById('taskTitle').value.trim();
+            const category = document.getElementById('taskCategory').value;
+            const priority = document.getElementById('taskPriority').value;
+            const dueDateTime = document.getElementById('taskDueDateTime').value;
+            const duration = document.getElementById('taskDuration').value;
+            const notes = document.getElementById('taskNotes').value.trim();
+            const alertEnabled = document.getElementById('taskAlertEnabled').checked;
+
+            if (!title || !dueDateTime) {
+                showToast('សូមបំពេញឈ្មោះកិច្ចការ និងកាលបរិច្ឆេទ!', 'error');
+                return;
+            }
+
+            if (id) {
+                const index = tasks.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    tasks[index] = {
+                        ...tasks[index],
+                        title, category, priority, dueDateTime, duration, notes, alertEnabled,
+                        subtasks: currentEditingSubtasks,
+                        // Reset alert trigger if time changed
+                        alertTriggered: (tasks[index].dueDateTime !== dueDateTime) ? false : tasks[index].alertTriggered
+                    };
+                    showToast('បានកែសម្រួលកិច្ចការដោយជោគជ័យ!', 'success');
+                }
+            } else {
+                const newTask = {
+                    id: 'tsk_' + Date.now(),
+                    title, category, priority, dueDateTime, duration, notes, alertEnabled,
+                    subtasks: currentEditingSubtasks,
+                    completed: false,
+                    alertTriggered: false
+                };
+                tasks.unshift(newTask);
+                showToast('បានគ្រោងទុកសកម្មភាពថ្មីជោគជ័យ!', 'success');
+            }
+
+            saveTasksToStorage();
+            closeTaskModal();
+            renderTasks();
+        }
+
+        function toggleTaskComplete(id, e) {
+            if (e) e.stopPropagation();
+            const item = tasks.find(t => t.id === id);
+            if (item) {
+                item.completed = !item.completed;
+                if (item.completed) {
+                    item.alertTriggered = true; // No more alarm once marked complete
+                }
+                saveTasksToStorage();
+                renderTasks();
+                showToast(item.completed ? 'កិច្ចការត្រូវបានបញ្ចប់រួចរាល់! 🎉' : 'បានដាក់មកក្នុងស្ថានភាពកំពុងធ្វើវិញ', 'info');
+            }
+        }
+
+        function toggleSubtaskStatus(taskId, subtaskIndex, e) {
+            if (e) e.stopPropagation();
+            const item = tasks.find(t => t.id === taskId);
+            if (item && item.subtasks && item.subtasks[subtaskIndex]) {
+                item.subtasks[subtaskIndex].done = !item.subtasks[subtaskIndex].done;
+                saveTasksToStorage();
+                renderTasks();
+            }
+        }
+
+        function deleteTask(id, e) {
+            if (e) e.stopPropagation();
+            if (confirm('តើលោកគ្រូពិតជាចង់លុបផែនការកិច្ចការនេះមែនទេ?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                saveTasksToStorage();
+                renderTasks();
+                showToast('បានលុបកិច្ចការរួចរាល់!', 'info');
+            }
+        }
+
+        function quickSnoozeTask(id, minutes, e) {
+            if (e) e.stopPropagation();
+            const item = tasks.find(t => t.id === id);
+            if (item) {
+                const currentDue = new Date(item.dueDateTime);
+                const newDue = new Date(Math.max(Date.now(), currentDue.getTime()) + minutes * 60000);
+                item.dueDateTime = toLocalISOString(newDue);
+                item.alertTriggered = false; // re-arm alarm
+                saveTasksToStorage();
+                renderTasks();
+                showToast(`បានពន្យារពេល ${minutes} នាទី!`, 'info');
+            }
+        }
+
+        // ------------------ REAL-TIME ALERT & SOUND SYSTEM ------------------
+        // Synthetic Web Audio API Chime (Pleasant high-end hotel chime sound)
+        function playChimeAlertSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+
+                    const startTime = ctx.currentTime + (idx * 0.16);
+                    gain.gain.setValueAtTime(0, startTime);
+                    gain.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.9);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(startTime);
+                    osc.stop(startTime + 0.95);
+                });
+            } catch (err) {
+                console.warn('Audio Context error: ', err);
+            }
+        }
+
+        function testNotificationChime() {
+            playChimeAlertSound();
+            showToast('សាកល្បងសម្លេងរំលឹក Alert ជោគជ័យ!', 'success');
+        }
+
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showToast('បានបើកសិទ្ធិ Browser Notification រួចរាល់!', 'success');
+                    } else {
+                        showToast('អ្នកបានបដិសេធសិទ្ធិ Notification!', 'error');
+                    }
+                });
+            } else {
+                showToast('Browser មិនគាំទ្រ Notification ទេ!', 'error');
+            }
+        }
+
+        function startBackgroundTicker() {
+            // Check every 5 seconds for due tasks
+            setInterval(() => {
+                checkDueTasks();
+                // update countdown badges on screen
+                updateTimeBadges();
+            }, 5000);
+        }
+
+        function checkDueTasks() {
+            const now = Date.now();
+            tasks.forEach(task => {
+                if (!task.completed && task.alertEnabled && !task.alertTriggered) {
+                    const taskDue = new Date(task.dueDateTime).getTime();
+                    // If due time is reached (within 1 minute past or current)
+                    if (taskDue <= now) {
+                        triggerAlarmForTask(task);
+                    }
+                }
+            });
+        }
+
+        function triggerAlarmForTask(task) {
+            task.alertTriggered = true;
+            saveTasksToStorage();
+            activeAlertTaskId = task.id;
+
+            // Play synthetic Chime sound
+            playChimeAlertSound();
+
+            // Native Browser Notification
+            if ('Notification' in window && Notification.permission === 'granted') {
+                try {
+                    new Notification(`⏰ ដល់ពេលត្រូវធ្វើហើយ៖ ${task.title}`, {
+                        body: `ប្រភេទ៖ ${task.category} | ${task.notes || 'កុំភ្លេចអនុវត្តកិច្ចការរបស់អ្នក!'}`,
+                        icon: 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'
+                    });
+                } catch (e) {}
+            }
+
+            // High Priority Modal Alert
+            const modal = document.getElementById('alarmAlertModal');
+            document.getElementById('alertTaskTitle').textContent = task.title;
+            document.getElementById('alertTaskCategory').textContent = `ប្រភេទ៖ ${task.category} (កម្រិត ${PRIORITY_MAP[task.priority].label})`;
+            document.getElementById('alertTaskNotes').textContent = task.notes || 'គ្មានកំណត់ចំណាំបន្ថែម';
+            modal.classList.remove('hidden');
+
+            // Repeat chime every 8 seconds until user acts
+            if (alarmAudioInterval) clearInterval(alarmAudioInterval);
+            alarmAudioInterval = setInterval(() => {
+                playChimeAlertSound();
+            }, 8000);
+        }
+
+        function dismissCurrentAlert() {
+            if (alarmAudioInterval) clearInterval(alarmAudioInterval);
+            document.getElementById('alarmAlertModal').classList.add('hidden');
+            activeAlertTaskId = null;
+        }
+
+        function snoozeAlertTask(minutes) {
+            if (!activeAlertTaskId) return;
+            quickSnoozeTask(activeAlertTaskId, minutes);
+            dismissCurrentAlert();
+        }
+
+        function markAlertTaskDone() {
+            if (!activeAlertTaskId) return;
+            toggleTaskComplete(activeAlertTaskId);
+            dismissCurrentAlert();
+        }
+
+        // ------------------ RENDERING & FILTERING ------------------
+        function setViewFilter(filter) {
+            currentViewFilter = filter;
+            // update tabs UI
+            ['all', 'today', 'upcoming', 'overdue', 'completed'].forEach(f => {
+                const btn = document.getElementById(`tab-${f}`);
+                if (f === filter) {
+                    btn.className = 'px-3.5 py-2 rounded-xl transition whitespace-nowrap bg-indigo-600 text-white shadow-sm font-medium';
+                } else {
+                    btn.className = 'px-3.5 py-2 rounded-xl transition whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium';
+                }
+            });
+
+            const titles = {
+                all: 'បញ្ជីកិច្ចការគ្រោងទុកទាំងអស់',
+                today: 'កិច្ចការដែលត្រូវធ្វើថ្ងៃនេះ (Today)',
+                upcoming: 'កិច្ចការគ្រោងទុកខាងមុខ (Upcoming)',
+                overdue: 'កិច្ចការដែលហួសកំណត់ (Overdue)',
+                completed: 'កិច្ចការដែលបានបញ្ចប់រួចរាល់ (Completed)'
+            };
+            document.getElementById('listTitleLabel').textContent = titles[filter];
+            renderTasks();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterCategory').value = 'all';
+            document.getElementById('filterPriority').value = 'all';
+            setViewFilter('all');
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('tasksGrid');
+            const emptyState = document.getElementById('emptyState');
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cat = document.getElementById('filterCategory').value;
+            const prio = document.getElementById('filterPriority').value;
+            const now = new Date();
+
+            const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            const endOfToday = startOfToday + 86400000;
+
+            const filtered = tasks.filter(t => {
+                const matchSearch = t.title.toLowerCase().includes(search) ||
+                                    (t.notes && t.notes.toLowerCase().includes(search)) ||
+                                    t.category.toLowerCase().includes(search);
+                const matchCat = cat === 'all' || t.category === cat;
+                const matchPrio = prio === 'all' || t.priority === prio;
+
+                const dueTime = new Date(t.dueDateTime).getTime();
+                let matchView = true;
+                if (currentViewFilter === 'today') {
+                    matchView = dueTime >= startOfToday && dueTime < endOfToday && !t.completed;
+                } else if (currentViewFilter === 'upcoming') {
+                    matchView = dueTime >= endOfToday && !t.completed;
+                } else if (currentViewFilter === 'overdue') {
+                    matchView = dueTime < Date.now() && !t.completed;
+                } else if (currentViewFilter === 'completed') {
+                    matchView = t.completed;
+                }
+
+                return matchSearch && matchCat && matchPrio && matchView;
+            });
+
+            // Sort: Incomplete first, then by dueDateTime asc
+            filtered.sort((a, b) => {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                return new Date(a.dueDateTime) - new Date(b.dueDateTime);
+            });
+
+            document.getElementById('taskCountBadge').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            container.innerHTML = filtered.map(item => {
+                const pInfo = PRIORITY_MAP[item.priority] || PRIORITY_MAP.p3;
+                const dueDate = new Date(item.dueDateTime);
+                const isOverdue = !item.completed && dueDate.getTime() < Date.now();
+                const formattedDate = dueDate.toLocaleDateString('km-KH', {
+                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                // Countdown / Status badge
+                const countdownBadge = getCountdownBadge(dueDate, item.completed);
+
+                // Subtask progress
+                const subtasks = item.subtasks || [];
+                const subDoneCount = subtasks.filter(s => s.done).length;
+
+                return `
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border ${isOverdue ? 'border-rose-400/80 dark:border-rose-700/80 bg-rose-50/20' : item.completed ? 'border-emerald-500/30 opacity-75' : 'border-slate-200/80 dark:border-slate-800'} shadow-sm hover:shadow-lg transition flex flex-col justify-between group">
+                        <div>
+                            <!-- Header Badges -->
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                                <span class="text-[10px] px-2.5 py-0.5 rounded-full font-semibold ${pInfo.badge}">
+                                    <i class="${pInfo.icon} mr-1 text-[9px]"></i>${pInfo.label}
+                                </span>
+                                <div>${countdownBadge}</div>
+                            </div>
+
+                            <!-- Title with complete checkbox -->
+                            <div class="flex items-start gap-2.5 mt-2">
+                                <input type="checkbox" ${item.completed ? 'checked' : ''} onchange="toggleTaskComplete('${item.id}', event)" class="mt-1 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 dark:border-slate-700 cursor-pointer">
+                                <h4 class="font-bold text-slate-900 dark:text-slate-100 text-sm sm:text-base ${item.completed ? 'line-through text-slate-400 dark:text-slate-500' : ''} leading-snug">
+                                    ${escapeHtml(item.title)}
+                                </h4>
+                            </div>
+
+                            <!-- Category & Time -->
+                            <div class="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                                <span class="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px]">
+                                    ${escapeHtml(item.category)}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-regular fa-clock text-indigo-500"></i> ${formattedDate}
+                                </span>
+                                <span class="text-slate-400 text-[11px]">• ${item.duration || '30 នាទី'}</span>
+                            </div>
+
+                            <!-- Notes -->
+                            ${item.notes ? `
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 line-clamp-2 leading-relaxed bg-slate-50 dark:bg-slate-900/40 p-2 rounded-xl">
+                                    ${escapeHtml(item.notes)}
+                                </p>
+                            ` : ''}
+
+                            <!-- Subtasks checklist -->
+                            ${subtasks.length > 0 ? `
+                                <div class="mt-3 pt-2 border-t border-slate-200/50 dark:border-slate-800/60">
+                                    <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                                        <span>កិច្ចការរង (${subDoneCount}/${subtasks.length})</span>
+                                        <span>${Math.round((subDoneCount / subtasks.length) * 100)}%</span>
+                                    </div>
+                                    <div class="space-y-1">
+                                        ${subtasks.map((st, sIdx) => `
+                                            <div onclick="toggleSubtaskStatus('${item.id}', ${sIdx}, event)" class="flex items-center gap-2 text-xs cursor-pointer p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                                <i class="fa-${st.done ? 'solid fa-square-check text-emerald-500' : 'regular fa-square text-slate-400'} text-xs"></i>
+                                                <span class="${st.done ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-300'} truncate">${escapeHtml(st.text)}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <!-- Card Footer Controls -->
+                        <div class="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-800/80 flex items-center justify-between">
+                            <!-- Quick Snooze Button (+15m) -->
+                            ${!item.completed ? `
+                                <div class="flex items-center gap-1">
+                                    <button onclick="quickSnoozeTask('${item.id}', 15, event)" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-amber-500 text-[11px] transition" title="ពន្យារពេល ១៥ នាទី">
+                                        <i class="fa-solid fa-clock-rotate-left mr-0.5"></i> +15m
+                                    </button>
+                                    <button onclick="startPomodoroForTask('${escapeHtml(item.title)}')" class="px-2 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 text-[11px] hover:bg-purple-100 transition" title="បើក Pomodoro Focus លើកិច្ចការនេះ">
+                                        <i class="fa-solid fa-stopwatch mr-0.5"></i> Focus
+                                    </button>
+                                </div>
+                            ` : `<span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium"><i class="fa-solid fa-check-double mr-1"></i>រួចរាល់</span>`}
+
+                            <!-- Action Icons -->
+                            <div class="flex items-center gap-1">
+                                <button onclick="openTaskModal('${item.id}')" class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition" title="កែប្រែ">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onclick="deleteTask('${item.id}', event)" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition" title="លុប">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getCountdownBadge(dueDate, isCompleted) {
+            if (isCompleted) {
+                return `<span class="text-[10px] px-2 py-0.5 rounded-full font-medium bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">បានបញ្ចប់</span>`;
+            }
+            const diffMs = dueDate.getTime() - Date.now();
+            if (diffMs < 0) {
+                const overdueMins = Math.floor(Math.abs(diffMs) / 60000);
+                if (overdueMins < 60) {
+                    return `<span class="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-rose-500 text-white animate-pulse">ហួស ${overdueMins} នាទី</span>`;
+                }
+                const overdueHours = Math.floor(overdueMins / 60);
+                return `<span class="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-rose-500 text-white">ហួស ${overdueHours} ម៉ោង</span>`;
+            }
+
+            const diffMins = Math.floor(diffMs / 60000);
+            if (diffMins < 60) {
+                return `<span class="text-[10px] px-2 py-0.5 rounded-full font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">នៅសល់ ${diffMins} នាទី</span>`;
+            }
+            const diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) {
+                return `<span class="text-[10px] px-2 py-0.5 rounded-full font-medium bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">នៅសល់ ${diffHours} ម៉ោង</span>`;
+            }
+            const diffDays = Math.floor(diffHours / 24);
+            return `<span class="text-[10px] px-2 py-0.5 rounded-full font-medium bg-slate-100 dark:bg-slate-800 text-slate-500">នៅសល់ ${diffDays} ថ្ងៃ</span>`;
+        }
+
+        function updateTimeBadges() {
+            // Re-render task cards lightly so countdowns stay fresh
+            renderTasks();
+            updateDashboardStats();
+        }
+
+        // ------------------ DASHBOARD METRICS ------------------
+        function updateDashboardStats() {
+            document.getElementById('statTotal').textContent = tasks.length;
+
+            const now = new Date();
+            const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            const endOfToday = startOfToday + 86400000;
+
+            const todayTasks = tasks.filter(t => {
+                const tm = new Date(t.dueDateTime).getTime();
+                return tm >= startOfToday && tm < endOfToday;
+            });
+            document.getElementById('statToday').textContent = todayTasks.length;
+
+            const overdueTasks = tasks.filter(t => !t.completed && new Date(t.dueDateTime).getTime() < Date.now());
+            document.getElementById('statOverdue').textContent = overdueTasks.length;
+
+            const completedTasks = tasks.filter(t => t.completed);
+            document.getElementById('statDone').textContent = completedTasks.length;
+
+            const pct = tasks.length > 0 ? Math.round((completedTasks.length / tasks.length) * 100) : 0;
+            document.getElementById('statProgressPct').textContent = `${pct}%`;
+            document.getElementById('statProgressBar').style.width = `${pct}%`;
+        }
+
+        // ------------------ POMODORO FOCUS TIMER ------------------
+        function openPomodoroModal() {
+            document.getElementById('pomodoroModal').classList.remove('hidden');
+        }
+
+        function closePomodoroModal() {
+            document.getElementById('pomodoroModal').classList.add('hidden');
+        }
+
+        function startPomodoroForTask(taskTitle) {
+            openPomodoroModal();
+            document.getElementById('pomoStatusText').textContent = `កំពុងផ្ដោតលើ៖ ${taskTitle}`;
+            setPomodoroMode(25, 'work');
+            if (!isPomoRunning) togglePomodoroTimer();
+        }
+
+        function setPomodoroMode(minutes, type) {
+            pomoMinutes = minutes;
+            pomoSeconds = 0;
+            pomoType = type;
+            clearInterval(pomoTimerInterval);
+            isPomoRunning = false;
+            document.getElementById('pomoActionBtn').textContent = 'ចាប់ផ្តើម';
+
+            const workBtn = document.getElementById('pomoBtn-work');
+            const breakBtn = document.getElementById('pomoBtn-break');
+            if (type === 'work') {
+                workBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-medium bg-purple-600 text-white';
+                breakBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
+            } else {
+                breakBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-medium bg-purple-600 text-white';
+                workBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
+            }
+            updatePomoDisplay();
+        }
+
+        function togglePomodoroTimer() {
+            if (isPomoRunning) {
+                clearInterval(pomoTimerInterval);
+                isPomoRunning = false;
+                document.getElementById('pomoActionBtn').textContent = 'បន្តទៀត';
+            } else {
+                isPomoRunning = true;
+                document.getElementById('pomoActionBtn').textContent = 'ផ្អាកសិន';
+                pomoTimerInterval = setInterval(() => {
+                    if (pomoSeconds === 0) {
+                        if (pomoMinutes === 0) {
+                            clearInterval(pomoTimerInterval);
+                            isPomoRunning = false;
+                            playChimeAlertSound();
+                            showToast(pomoType === 'work' ? 'ពេលវេលាផ្ដោតអារម្មណ៍ចប់ហើយ! ដល់ពេលសម្រាក ៥ នាទី' : 'ពេលសម្រាកចប់ហើយ! ត្រៀមផ្ដោតការងារបន្ត', 'success');
+                            setPomodoroMode(pomoType === 'work' ? 5 : 25, pomoType === 'work' ? 'break' : 'work');
+                            return;
+                        }
+                        pomoMinutes--;
+                        pomoSeconds = 59;
+                    } else {
+                        pomoSeconds--;
+                    }
+                    updatePomoDisplay();
+                }, 1000);
+            }
+        }
+
+        function resetPomodoroTimer() {
+            setPomodoroMode(pomoType === 'work' ? 25 : 5, pomoType);
+        }
+
+        function updatePomoDisplay() {
+            const m = String(pomoMinutes).padStart(2, '0');
+            const s = String(pomoSeconds).padStart(2, '0');
+            document.getElementById('pomoDisplay').textContent = `${m}:${s}`;
+        }
+
+        // ------------------ BACKUP & RESTORE ------------------
+        function toggleUtilityMenu() {
+            document.getElementById('utilityMenu').classList.toggle('hidden');
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('utilityMenu');
+            if (!e.target.closest('#utilityMenu') && !e.target.closest('button[onclick="toggleUtilityMenu()"]')) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        function exportDataJSON() {
+            const data = {
+                appName: 'PlanMaster Pro',
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                tasks: tasks
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `PlanMaster_Tasks_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('បានទាញយកទិន្នន័យ Backup រួចរាល់!', 'success');
+        }
+
+        function importDataJSON(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const parsed = JSON.parse(event.target.result);
+                    if (parsed && Array.isArray(parsed.tasks)) {
+                        tasks = parsed.tasks;
+                        saveTasksToStorage();
+                        renderTasks();
+                        showToast(`បានស្តារទិន្នន័យចំនួន ${tasks.length} កិច្ចការ!`, 'success');
+                    } else if (Array.isArray(parsed)) {
+                        tasks = parsed;
+                        saveTasksToStorage();
+                        renderTasks();
+                        showToast(`បានស្តារទិន្នន័យចំនួន ${tasks.length} កិច្ចការ!`, 'success');
+                    } else {
+                        showToast('ទម្រង់ឯកសារមិនត្រឹមត្រូវ!', 'error');
+                    }
+                } catch (err) {
+                    showToast('មិនអាចអានឯកសារ JSON បានទេ!', 'error');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        }
+
+        // ------------------ THEME & TOAST HELPERS ------------------
+        function loadTheme() {
+            const saved = localStorage.getItem(STORAGE_THEME);
+            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                document.getElementById('themeIcon').classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem(STORAGE_THEME, 'light');
+                document.getElementById('themeIcon').classList.replace('fa-sun', 'fa-moon');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem(STORAGE_THEME, 'dark');
+                document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.getElementById('toastIcon');
+
+            msgEl.textContent = message;
+
+            if (type === 'success') {
+                iconEl.className = 'fa-solid fa-circle-check text-emerald-500 text-base';
+            } else if (type === 'error') {
+                iconEl.className = 'fa-solid fa-triangle-exclamation text-rose-500 text-base';
+            } else {
+                iconEl.className = 'fa-solid fa-circle-info text-indigo-500 text-base';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
